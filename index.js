@@ -6,6 +6,11 @@ class Room {
         this.bookings = [];
     }
 
+    rateToCents() {
+        const CENTS = 100;
+        return (this.rate * (1 - this.discount / 100)) * CENTS;
+    }
+
     isOccupied(date) {
         if(typeof(date) !== 'string') throw new Error('Invalid Input Format');
         if(isNaN(Date.parse(date))) throw new Error('Invalid Date');
@@ -20,7 +25,30 @@ class Room {
     }
 
     occupancyPercentage(startDate, endDate) {
-        return;
+        if(typeof(startDate) !== 'string' || typeof(endDate) !== 'string') {
+            throw new Error('Invalid Input Format')
+        };
+        if(isNaN(Date.parse(startDate)) || isNaN(Date.parse(endDate))) {
+            throw new Error('Invalid Date');
+        }
+        if(Date.parse(startDate) > Date.parse(endDate)){
+            throw new Error('startDate cannot be greater than endDate');
+        } 
+
+        const start = new Date(startDate);
+        const end = new Date(endDate);
+
+        let daysOccupied = 0;
+        let totalDays = 0;
+
+        while (start <= end) {
+            totalDays += 1;
+            if( this.isOccupied(start.toString()) ){
+                daysOccupied += 1;
+            }
+            start.setDate(start.getDate() + 1);
+        }
+        return Math.round( (daysOccupied / totalDays) * 100 );
     }
 
     static totalOccupancyPercentage(rooms, startDate, endDate) {
