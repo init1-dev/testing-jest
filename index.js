@@ -7,7 +7,15 @@ class Room {
     }
 
     isOccupied(date) {
-        return;
+        if(isNaN(Date.parse(date))) throw new Error('Invalid Date');
+
+        const parsedDate = new Date(date);
+        
+        return this.bookings.some(booking => {
+            const checkInDate = new Date(booking.checkIn);
+            const checkOutDate = new Date(booking.checkOut);
+            return checkInDate <= parsedDate && checkOutDate > parsedDate;
+        });
     }
 
     occupancyPercentage(startDate, endDate) {
