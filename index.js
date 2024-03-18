@@ -1,19 +1,20 @@
 class Room {
-    constructor(name, rate, discount) {
+    constructor({name, rate, discount}) {
         this.name = name;
-        this.bookings = [];
         this.rate = rate;
         this.discount = discount;
+        this.bookings = [];
     }
 
     isOccupied(date) {
+        if(typeof(date) !== 'string') throw new Error('Invalid Input Format');
         if(isNaN(Date.parse(date))) throw new Error('Invalid Date');
 
-        const parsedDate = new Date(date);
+        const parsedDate = new Date(date).getTime();
         
         return this.bookings.some(booking => {
-            const checkInDate = new Date(booking.checkIn);
-            const checkOutDate = new Date(booking.checkOut);
+            const checkInDate = new Date(booking.checkIn).getTime();
+            const checkOutDate = new Date(booking.checkOut).getTime();
             return checkInDate <= parsedDate && checkOutDate > parsedDate;
         });
     }
@@ -32,7 +33,7 @@ class Room {
 }
 
 class Booking {
-    constructor(name, email, checkIn, checkOut, room, discount) {
+    constructor({name, email, checkIn, checkOut, room, discount}) {
         this.name = name;
         this.email = email;
         this.checkIn = checkIn;
