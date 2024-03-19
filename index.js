@@ -92,7 +92,14 @@ class Booking {
     }
 
     getFee() {
-        return;
+        if(this.discount > 100) this.discount = 100;
+        if(this.discount < 0) this.discount = 0;
+        if(this.room.discount > 100 ) this.room.discount = 100;
+        if(this.room.discount < 0) this.room.discount = 0;
+        
+        const bookingFee = this.room.rateToCents() * (1 - this.discount / HUNDRED_PERCENT);
+
+        return bookingFee;
     }
 }
 

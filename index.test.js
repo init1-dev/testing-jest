@@ -156,11 +156,27 @@ describe('Available Rooms', () => {
     });
 });
 
-// describe('Booking', () => {
-//     const booking = new Booking();
+describe('Booking - getFee', () => {
+    const room = new Room({...roomTemplate, rate: 500, discount: 10});
+    const room2 = new Room({...roomTemplate, rate: 500, discount: 0});
+    const room3 = new Room({...roomTemplate, rate: 500, discount: -10});
+    const booking1 = new Booking({...bookingTemplate, checkIn: "2024-03-15", checkOut: "2024-03-18", room: room, discount: 10});
+    const booking2 = new Booking({...bookingTemplate, checkIn: "2024-03-15", checkOut: "2024-03-18", room: room2, discount: 0});
+    const booking3 = new Booking({...bookingTemplate, checkIn: "2024-03-15", checkOut: "2024-03-18", room: room3, discount: -10});
+    room.bookings = [booking1];
+    room2.bookings = [booking2];
+    room3.bookings = [booking3];
 
-//     test('should return correct fee including discounts on room and booking', () => {
-//         expect(booking.getFee().toBe(true));
-//     });
+    test('should return correct fee including discounts on room and booking', () => {
+        expect(booking1.getFee()).toBe(40500);
+    });
 
-// });
+    test('should return correct fee including discounts on room and booking', () => {
+        expect(booking2.getFee()).toBe(50000);
+    });
+
+    test('should return correct fee including discounts on room and booking', () => {
+        expect(booking3.getFee()).toBe(50000);
+    });
+
+});

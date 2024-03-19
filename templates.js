@@ -1,7 +1,7 @@
 const roomTemplate = { 
     name: "Room1", 
-    rate: 5, 
-    discount: 0, 
+    rate: 500, 
+    discount: 10, 
     bookings: [] 
 }
 
