@@ -1,4 +1,7 @@
 class Room {
+    HUNDRED_PERCENT = 100;
+    CENTS = 100;
+
     constructor({name, rate, discount}) {
         this.name = name;
         this.rate = rate;
@@ -7,8 +10,7 @@ class Room {
     }
 
     rateToCents() {
-        const CENTS = 100;
-        return (this.rate * (1 - this.discount / 100)) * CENTS;
+        return (this.rate * (1 - this.discount / this.HUNDRED_PERCENT)) * this.CENTS;
     }
 
     isOccupied(date) {
@@ -48,11 +50,19 @@ class Room {
             }
             start.setDate(start.getDate() + 1);
         }
-        return Math.round( (daysOccupied / totalDays) * 100 );
+        return Math.round( (daysOccupied / totalDays) * this.HUNDRED_PERCENT );
     }
 
     static totalOccupancyPercentage(rooms, startDate, endDate) {
-        return;
+        if (!Array.isArray(rooms) ) throw new Error('Undefined rooms array');
+        if (rooms.length === 0) throw new Error('Empty rooms array');
+
+        let percentage = 0;
+        rooms.forEach(room => {
+            percentage += room.occupancyPercentage(startDate, endDate);
+        });
+
+        return Math.round(percentage / rooms.length);
     }
 
     static availableRooms(rooms, startDate, endDate) {
