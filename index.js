@@ -97,7 +97,7 @@ class Booking {
         if(this.room.discount > 100 ) this.room.discount = 100;
         if(this.room.discount < 0) this.room.discount = 0;
         
-        const bookingFee = this.room.rateToCents() * (1 - this.discount / HUNDRED_PERCENT);
+        const bookingFee = this.room.rateToCents() * (1 - (this.discount / HUNDRED_PERCENT));
 
         return bookingFee;
     }
