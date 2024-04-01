@@ -39,7 +39,7 @@ class Room {
         });
     }
 
-    daysBooked(startDate: string, endDate: string) {
+    daysBooked(startDate: string, endDate: string): {daysOccupied: number, totalDays: number} {
         const start = new Date(startDate);
         const end = new Date(endDate);
 
@@ -69,7 +69,7 @@ class Room {
         return Math.round( (daysOccupied / totalDays) * HUNDRED_PERCENT );
     }
 
-    static totalOccupancyPercentage(rooms: Room[], startDate: string, endDate: string) {
+    static totalOccupancyPercentage(rooms: Room[], startDate: string, endDate: string): number {
         let percentage = 0;
         rooms.forEach(room => {
             percentage += room.occupancyPercentage(startDate, endDate);
@@ -78,7 +78,7 @@ class Room {
         return Math.round(percentage / rooms.length);
     }
 
-    static availableRooms(rooms: Room[], startDate: string, endDate: string) {
+    static availableRooms(rooms: Room[], startDate: string, endDate: string): Room[] {
         if (rooms.length === 0) throw new Error('Empty rooms array');
         
         const roomsAvaible = rooms.filter(room => {

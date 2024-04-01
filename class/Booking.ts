@@ -28,7 +28,7 @@ class Booking implements BookingInterface {
         this.discount = discount;
     }
 
-    getFee() {
+    getFee():number {
         if(this.room && this.room.discount > 100 ) this.room.discount = 100;
         if(this.room && this.room.discount < 0) this.room.discount = 0;
         const minDiscount: number = Math.min(100, this.discount);
